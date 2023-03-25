@@ -11,7 +11,7 @@ const generateToken = (id) =>{
     return jwt.sign({id}, process.env.JWT_SECRET, { expiresIn: "1d" })
 }
 
-// Register User
+// @Register User
 const registerUser = asyncHandler(async(req, res)=>{
     const { name, email, password } = req.body;
     // Validation
@@ -62,8 +62,70 @@ const registerUser = asyncHandler(async(req, res)=>{
         throw new Error("Invalid user data");
     }
 
-})
+});
+
+// @Login User
+
+const loginUser = asyncHandler( async(req, res)=>{
+    const {email, password} = req.body
+    // Validate Request
+    if (!email || !password){
+        res.status(400);
+        throw new Error("Please add email and Password!");
+    }
+    // check if User exist
+    const user = await User.findOne({email});
+    if (!user){
+        res.status(400);
+        throw new Error("User not found!");
+    }
+    // User exist, check password if correct
+    const passwordIsCorrect = await bcrypt.compare(password, user.password);
+
+    // Generate Token
+    const token = generateToken(user._id)
+
+    // Send HTTP-only cookie
+    if (passwordIsCorrect) {
+        res.cookie("token", token, {
+            path: '/',
+            httpOnly: true,
+            expire: new Date(Date.now() + 1000 * 86400), // 1 Day
+            sameSite: "none",
+            secure: true
+        });
+    }
+    // User Login
+    if(user && passwordIsCorrect){
+        const { _id, name, email, photo, phone, bio } = user;
+        res.status(200).json({
+            _id,
+            name,
+            email,
+            bio,
+            token
+        });
+    }else{
+        res.status(400);
+        throw new Error("Invalid Email or Password!");
+    }
+
+});
+
+// @logout user
+const logoutUser = asyncHandler(async(req, res)=>{
+    res.cookie("token", "", {
+        path: '/',
+        httpOnly: true,
+        expire: new Date(0), // expire now
+        sameSite: "none",
+        secure: true
+    });
+    return res.status(200).json({ message: 'Successfully Logged Out'})
+});
 
 module.exports = {
     registerUser,
+    loginUser,
+    logoutUser
 }
