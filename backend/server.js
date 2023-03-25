@@ -6,6 +6,10 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
+const userRoute = require('./routes/userRoute');
+const productRoute = require('./routes/productRoute');
+const errorHandler = require('./middleWare/errorMiddleware');
+
 const app = express();
 
 // Middlewares
@@ -21,11 +25,17 @@ const corsOptions = {
   };
 
 app.use(cors(corsOptions));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // Routes Middleware
+app.use('/api/users', userRoute);
+app.use('/api/products', productRoute);
 
 
 // *** Error Middleware
+app.use(errorHandler);
+
+mongoose.set('strictQuery', false);
 
 app.get("/", (req, res)=>{
     res.send('Home Page');
