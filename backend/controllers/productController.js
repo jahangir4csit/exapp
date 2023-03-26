@@ -48,6 +48,92 @@ const createProduct = asyncHandler(async(req, res)=>{
 
 });
 
+// get all products
+const getProducts = asyncHandler(async(req, res)=>{
+    const products = await Product.find({ user: req.user.id }).sort("-createdAt");
+    res.status(200).json(products);
+});
+
+// Delete Product
+const deleteProduct = asyncHandler(async(req, res)=>{
+
+    const product = await Product.findById(req.params.id);
+    //if product does not exist
+    if(!product){
+        res.status(404)
+        throw new Error("Product not found!")
+    }
+    //Match product to its user
+    if(product.user.toString() !== req.user.id){
+        res.status(401);
+        throw new Error("User not authorized!")
+    }
+    await product.remove();
+    res.status(200).json({ message: 'Product Deleted!'});
+
+});
+
+// Update Product
+const updateProduct = asyncHandler(async(req, res)=>{
+    const { name, category, quantity, price, description } = req.body;
+
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    //if product does not exist
+    if(!product){
+        res.status(404)
+        throw new Error("Product not found!")
+    }
+    //Match product to its user
+    if(product.user.toString() !== req.user.id){
+        res.status(401);
+        throw new Error("User not authorized!")
+    }
+
+    // Handle Image Upload
+    let fileData = {}
+    if(req.file){
+        // Save Image to cloudinary
+        let uploadedFile;
+        try {
+            uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+                folder: "Pinvent Pro", resource_type: "image"
+            })
+        }catch (err){
+            res.status(500);
+            throw new Error("Image could not be uploaded")
+        }
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: uploadedFile.secure_url,
+            fileType: req.file.mimeType,
+            fileSize: fileSizeFormatter(req.file.size, 2),
+        }
+    }
+
+    // Update Product
+    const updatedProduct = await Product.findByIdAndUpdate(
+        {_id: id},
+        {
+            name,
+            category,
+            quantity,
+            price,
+            description,
+            image: Object.keys(fileData).length === 0 ? product?.image : fileData,
+        },{
+            new: true,
+            runValidators: true
+        }
+    );
+    res.status(200).json(updatedProduct);
+});
+
 module.exports = {
     createProduct,
+    getProducts,
+    deleteProduct,
+    updateProduct
 }
