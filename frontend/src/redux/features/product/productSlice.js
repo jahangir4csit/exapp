@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { notification } from 'antd';
+import productService from '../../../services/productServices';
 
 const initialState = {
     product: null,
@@ -10,13 +12,13 @@ const initialState = {
 }
 
 // Create New Product
-const createNewProduct = createAsyncThunk(
+const createProduct = createAsyncThunk(
   "products/create",
-  async()=>{
+  async(formData, thunkAPI)=>{
     try {
-      
+      return await productService.createProduct(formData);
     } catch (error) {
-      
+      return thunkAPI.rejectWithValue( error.response.data.message)
     }
   }
 )
@@ -30,7 +32,23 @@ const productSlice = createSlice({
     }
   },
   extraReducers: (builder)=>{
-
+      builder
+        .addCase(createProduct.pending, (state)=>{
+          state.isLoading = true
+        })
+        .addCase(createProduct.fulfilled, (state, action)=>{
+          state.isLoading = false
+          state.isSuccess = true
+          console.log(action.payload)
+          state.products.push(action.payload)
+          notification.success('Product added successfully');
+        })
+        .addCase(createProduct.rejected, (state, action)=>{
+          state.isLoading = false
+          state.isError = true
+          state.message = action.payload
+          notification.error(action.payload);
+        })
   }
 });
 
