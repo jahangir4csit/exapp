@@ -40,7 +40,8 @@
     border-radius: .5rem!important;
 }
 .sidebarNav li.ant-menu-item, .sidebarNav .ant-menu-submenu-title,
-.sidebarNav li.ant-menu-submenu-selected .ant-menu-submenu-title
+.sidebarNav li.ant-menu-submenu-selected .ant-menu-submenu-title,
+.sidebarNav li.ant-menu-item a
 {
     color: #fff!important;
 }

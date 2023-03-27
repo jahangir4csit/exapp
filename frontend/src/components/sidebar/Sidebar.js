@@ -1,6 +1,7 @@
 import React from 'react'
+import { NavLink } from "react-router-dom";
 import { Menu } from 'antd';
-import { FileOutlined, PieChartOutlined, UserOutlined, DesktopOutlined, TeamOutlined } from '@ant-design/icons';
+import { PieChartOutlined, TeamOutlined, ShopOutlined } from '@ant-design/icons';
 
 export default function Sidebar() {
     function getItem(label, key, icon, children) {
@@ -13,15 +14,17 @@ export default function Sidebar() {
       }
 
     const navitems = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem(<NavLink to='/dashboard'>Overview</NavLink>, '1', <PieChartOutlined />),
+    getItem('User', 'sub1', <TeamOutlined />, [
+        getItem(<NavLink to='/users'>All Users</NavLink>, '3'),
+        getItem(<NavLink to='/add-role'>Add Role</NavLink>, '4'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Products', 'sub2', <ShopOutlined />, [
+      getItem(<NavLink to='/products'>All Products</NavLink>, '6'), 
+      getItem(<NavLink to='/add-product'>Add New</NavLink>, '8'),
+      getItem(<NavLink to='/categories'>Categories</NavLink>, '9'),
+      getItem(<NavLink to='/add-category'>Add New Categories</NavLink>, '10')
+      ]),
     ];
 
   return (
