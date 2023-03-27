@@ -62,6 +62,31 @@ const registerUser = asyncHandler(async(req, res)=>{
         throw new Error("Invalid user data");
     }
 
+    // Send Mail
+    const message = `
+    <h2>Hello ${user.name}</h2>
+    <p>Your registration cmpleted successfuly</p>
+    <p>Thank you for join with us</p>
+    
+    <a href="/login" clicktracking="off">Login</a>
+    <p>Regards...</p>
+    <em>Exapp Team</em>`;
+
+    const subject = "Registration Success"
+    const send_to = user.email
+    const sent_from = process.env.EMAIL_USER
+
+    try {
+        await sendEmail(subject, message, send_to, sent_from);
+        res.status(200).json({
+            success: true,
+            message: 'Confirmation mail sent!'
+        })
+    }catch (error) {
+        res.status(500)
+        throw new Error("Email not sent, Please try again")
+    }
+
 });
 
 // @Login User
