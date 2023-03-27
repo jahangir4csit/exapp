@@ -1,0 +1,62 @@
+/**** Dashboard Style **** */
+
+/**** Common Style **** */
+.grid{
+    display: grid;
+}
+.grid-cols-7{
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.col-span-1{
+    grid-column: 1 / span 1;
+}
+.col-span-6{
+    grid-column: 2 / span 6;
+}
+.bg-primary{
+    background-color: #1a3175;
+}
+.bg-secondary{
+    background-color: #223e8c;
+}
+.bg-success{
+    background-color: rgb(255, 255, 255, 1);
+}
+
+
+/**** topbar Style **** */
+.topbar{
+    height: 70px;
+}
+.content_layout_wrap{
+    align-items: stretch;
+}
+.sidebarNav{
+    background-color: transparent;
+    border: none!important;
+}
+.sidebarNav li ul.ant-menu-sub{
+    background-color: #223e8c!important;
+    border-radius: .5rem!important;
+}
+.sidebarNav li.ant-menu-item, .sidebarNav .ant-menu-submenu-title,
+.sidebarNav li.ant-menu-submenu-selected .ant-menu-submenu-title
+{
+    color: #fff!important;
+}
+.sidebarNav li.ant-menu-item:hover, .sidebarNav li.ant-menu-submenu:hover, .sidebarNav li.ant-menu-submenu .ant-menu-submenu-title:active,
+.sidebarNav li.ant-menu-submenu-open.ant-menu-submenu-selected:hover
+{
+    color: #fff!important;
+    background-color: #223e8c!important;
+}
+.sidebarNav li.ant-menu-submenu-open:hover,
+.sidebarNav li.ant-menu-submenu-open .ant-menu-submenu-title,
+.sidebarNav li.ant-menu-submenu:hover .ant-menu-submenu-title
+{
+    color: #fff!important;
+    background-color: transparent!important;
+}
+.sidebarNav li.ant-menu-item-selected,.sidebarNav li.ant-menu-submenu-selected{
+    background-color: #223e8c;
+}
