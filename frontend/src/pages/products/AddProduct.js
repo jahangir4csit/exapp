@@ -13,17 +13,25 @@ export default function AddProduct() {
 
     const onChange = (value) => {
         console.log('changed', value);
-      };
+    };
+    const normFile = (e) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+          return e;
+        }
+        return e?.fileList;
+    };
 
     const onFinish = async(values) => {
-        const {name, email, password, password2 } = values
-        if(!name || !email || !password){
+        const {title, sku, price, quantity, category, upload, description } = values
+        if(!title || !sku || !price || !quantity || !category || !upload){
           return notification.error({
             message: 'Validation Faild',
             description:
               'All fields are required',
           });
         }
+        console.log(values, 'formData');
     };
 
     return (
@@ -36,7 +44,7 @@ export default function AddProduct() {
                   }}
                 >
                 <Form.Item
-                    name="name"
+                    name="title"
                     rules={[{ required: true, message: 'Please input Product title!' }]}
                 >
                     <Input size="large" 
@@ -46,7 +54,7 @@ export default function AddProduct() {
                     />
                 </Form.Item>
                 <Form.Item
-                    name="name"
+                    name="sku"
                     rules={[{ required: true, message: 'Please input product SKU' }]}
                 >
                     <Input size="large" 
@@ -66,7 +74,7 @@ export default function AddProduct() {
                     />
                 </Form.Item>
                 <Form.Item
-                    name="qty"
+                    name="quantity"
                     rules={[{ required: true, message: 'Please input product quantity' }]}
                     label="Product Quantity"
                 >
@@ -116,17 +124,22 @@ export default function AddProduct() {
                             ]}
                         />
                     </Form.Item>
-                    <Form.Item label="Upload Product Image" valuePropName="fileList">
-                        <Upload action="/upload.do" listType="picture-card">
+                    <Form.Item 
+                        name="upload" 
+                        label="Upload Product Image" 
+                        valuePropName="fileList"
+                        getValueFromEvent={normFile}
+                    >
+                        <Upload name="productImg" action="/upload.do" listType="picture-card" maxCount={1}>
                             <div>
                             <PlusOutlined />
-                            <div
-                                style={{
-                                marginTop: 8,
-                                }}
-                            >
-                                Upload
-                            </div>
+                                <div
+                                    style={{
+                                    marginTop: 8,
+                                    }}
+                                >
+                                    Upload
+                                </div>
                             </div>
                         </Upload>
                     </Form.Item>
