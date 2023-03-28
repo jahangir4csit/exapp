@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import { useDispatch } from 'react-redux'
 import { Input, Form, Button, Typography, notification, InputNumber, Select, Upload, Spin  } from 'antd';
 import {FontSizeOutlined, ScanOutlined, PoundCircleOutlined, PlusOutlined  } from '@ant-design/icons'
+import { createProduct } from '../../redux/features/product/productSlice';
 const { Title  } = Typography;
 // import './dashboard.css';
 
@@ -10,6 +12,8 @@ const { Title  } = Typography;
 export default function AddProduct() {
 
     const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const onChange = (value) => {
         console.log('changed', value);
@@ -23,15 +27,26 @@ export default function AddProduct() {
     };
 
     const onFinish = async(values) => {
-        const {title, sku, price, quantity, category, upload, description } = values
-        if(!title || !sku || !price || !quantity || !category || !upload){
+        const {title, sku, price, quantity, category, description } = values
+        if(!title || !sku || !price || !quantity || !category){
           return notification.error({
             message: 'Validation Faild',
             description:
               'All fields are required',
           });
         }
-        console.log(values, 'formData');
+        const formData = {
+            title, sku, price, quantity, category, description
+        }
+        console.log(formData, 'formData');
+
+        try {
+            await dispatch(createProduct(formData)); 
+            // navigate('/products');
+        } catch (error) {
+            console.log(error);
+        }
+
     };
 
     return (
