@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Input, Form, Button, Typography, notification, InputNumber, Select, Upload, Spin  } from 'antd';
 import {FontSizeOutlined, ScanOutlined, PoundCircleOutlined, PlusOutlined  } from '@ant-design/icons'
 import { createProduct } from '../../redux/features/product/productSlice';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const { Title  } = Typography;
 // import './dashboard.css';
 
@@ -12,6 +13,8 @@ const { Title  } = Typography;
 export default function AddProduct() {
 
     const [isLoading, setIsLoading] = useState(false);
+    const [productImage, setProductImage] = useState("");
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,8 +29,17 @@ export default function AddProduct() {
         return e?.fileList;
     };
 
+    const handleImageChange = (e) => {
+        setProductImage(e.target.files[0]);
+      };
+
+      console.log(productImage, 'img log...');
+
+    //   const { name, size, type } = productImage;
+    //   const image = {name,size,type}
+
     const onFinish = async(values) => {
-        const {name, sku, price, quantity, category, description } = values
+        const {name, sku, price, quantity, category, description, image } = values
         if(!name || !sku || !price || !quantity || !category){
           return notification.error({
             message: 'Validation Faild',
@@ -36,7 +48,7 @@ export default function AddProduct() {
           });
         }
         const formData = {
-            name, sku, price, quantity, category, description
+            name, sku, price, quantity, category, description, image
         }
         console.log(formData, 'formData');
 
@@ -135,13 +147,14 @@ export default function AddProduct() {
                             ]}
                         />
                     </Form.Item>
-                    {/* <Form.Item 
-                        name="upload" 
+                    
+                    <Form.Item 
+                        name="image" 
                         label="Upload Product Image" 
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
                     >
-                        <Upload name="productImg" action="/upload.do" listType="picture-card" maxCount={1}>
+                        <Upload name="productImg" action='http://localhost/3000' listType="picture-card" maxCount={1}>
                             <div>
                             <PlusOutlined />
                                 <div
@@ -153,7 +166,12 @@ export default function AddProduct() {
                                 </div>
                             </div>
                         </Upload>
-                    </Form.Item> */}
+                    </Form.Item>
+                    <input
+                    type="file"
+                    name="image"
+                    onChange={(e) => handleImageChange(e)}
+                    />
                     <Form.Item
                     name="description"
                     rules={[{ required: true, message: 'Please input product description' }]}

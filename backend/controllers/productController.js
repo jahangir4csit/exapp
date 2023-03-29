@@ -42,7 +42,7 @@ const createProduct = asyncHandler(async(req, res)=>{
         quantity,
         price,
         description,
-        // image: fileData
+        image: fileData
     });
     res.status(201).json(product)
 
