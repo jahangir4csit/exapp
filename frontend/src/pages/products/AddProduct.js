@@ -13,7 +13,6 @@ const { Title  } = Typography;
 export default function AddProduct() {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [productImage, setProductImage] = useState("");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,24 +21,16 @@ export default function AddProduct() {
         console.log('changed', value);
     };
     const normFile = (e) => {
-        console.log('Upload event:', e);
         if (Array.isArray(e)) {
           return e;
         }
         return e?.fileList;
     };
 
-    const handleImageChange = (e) => {
-        setProductImage(e.target.files[0]);
-      };
-
-      console.log(productImage, 'img log...');
-
-    //   const { name, size, type } = productImage;
-    //   const image = {name,size,type}
-
     const onFinish = async(values) => {
+
         const {name, sku, price, quantity, category, description, image } = values
+        //validation
         if(!name || !sku || !price || !quantity || !category){
           return notification.error({
             message: 'Validation Faild',
@@ -47,13 +38,19 @@ export default function AddProduct() {
               'All fields are required',
           });
         }
-        const formData = {
-            name, sku, price, quantity, category, description, image
-        }
-        console.log(formData, 'formData');
+
+        const productImage = image[0].originFileObj;
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('sku', sku);
+        formData.append('category', category);
+        formData.append('quantity', quantity);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('image', productImage);
 
         await dispatch(createProduct(formData)); 
-        // navigate('/products');
+        navigate('/products');
 
     };
 
@@ -154,7 +151,7 @@ export default function AddProduct() {
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
                     >
-                        <Upload name="productImg" action='http://localhost/3000' listType="picture-card" maxCount={1}>
+                        <Upload customRequest="" listType="picture-card" maxCount={1}>
                             <div>
                             <PlusOutlined />
                                 <div
@@ -167,11 +164,6 @@ export default function AddProduct() {
                             </div>
                         </Upload>
                     </Form.Item>
-                    <input
-                    type="file"
-                    name="image"
-                    onChange={(e) => handleImageChange(e)}
-                    />
                     <Form.Item
                     name="description"
                     rules={[{ required: true, message: 'Please input product description' }]}
