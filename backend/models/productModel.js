@@ -35,10 +35,10 @@ const productSchema = mongoose.Schema({
         required: [true, 'Please add a description'],
         trim: true
     },
-    image:{
-        type: Object,
-        default: {}
-    }
+    // image:{
+    //     type: Object,
+    //     default: {}
+    // }
 
 },{  timeStamps: true });
 const Product = mongoose.model('Product', productSchema);

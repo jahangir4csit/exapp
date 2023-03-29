@@ -27,8 +27,8 @@ export default function AddProduct() {
     };
 
     const onFinish = async(values) => {
-        const {title, sku, price, quantity, category, description } = values
-        if(!title || !sku || !price || !quantity || !category){
+        const {name, sku, price, quantity, category, description } = values
+        if(!name || !sku || !price || !quantity || !category){
           return notification.error({
             message: 'Validation Faild',
             description:
@@ -36,16 +36,12 @@ export default function AddProduct() {
           });
         }
         const formData = {
-            title, sku, price, quantity, category, description
+            name, sku, price, quantity, category, description
         }
         console.log(formData, 'formData');
 
-        try {
-            await dispatch(createProduct(formData)); 
-            // navigate('/products');
-        } catch (error) {
-            console.log(error);
-        }
+        await dispatch(createProduct(formData)); 
+        // navigate('/products');
 
     };
 
@@ -59,7 +55,7 @@ export default function AddProduct() {
                   }}
                 >
                 <Form.Item
-                    name="title"
+                    name="name"
                     rules={[{ required: true, message: 'Please input Product title!' }]}
                 >
                     <Input size="large" 
@@ -139,7 +135,7 @@ export default function AddProduct() {
                             ]}
                         />
                     </Form.Item>
-                    <Form.Item 
+                    {/* <Form.Item 
                         name="upload" 
                         label="Upload Product Image" 
                         valuePropName="fileList"
@@ -157,7 +153,7 @@ export default function AddProduct() {
                                 </div>
                             </div>
                         </Upload>
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item
                     name="description"
                     rules={[{ required: true, message: 'Please input product description' }]}

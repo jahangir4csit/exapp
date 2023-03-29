@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { notification } from 'antd';
 import productService from '../../../services/productServices';
 
@@ -14,14 +14,22 @@ const initialState = {
 // Create New Product
 export const createProduct = createAsyncThunk(
   "products/create",
-  async(formData, thunkAPI)=>{
+  async (formData, thunkAPI) => {
+    console.log(formData, 'frm data');
     try {
       return await productService.createProduct(formData);
     } catch (error) {
-      return thunkAPI.rejectWithValue( error.response.data.message)
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message, 'error slice');
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
 const productSlice = createSlice({
   name: 'product',
