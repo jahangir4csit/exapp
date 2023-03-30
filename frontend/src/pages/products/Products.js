@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import { Divider, Button, Popconfirm  } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Space, Table, Tag } from 'antd';
+import { getProducts, selectIsLoading } from '../../redux/features/product/productSlice';
+import useRedirectLoggedOutUser from "../../components/utils/useRedirectUser";
+import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 
 import './products.css';
 
-import { Space, Table, Tag } from 'antd';
+
 const columns = [
     {
     title: 'SL',
@@ -82,6 +87,23 @@ const data = [
 ];
 
 export default function Products() {
+
+  useRedirectLoggedOutUser("/login");
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const { products, isLoading } = useSelector(
+    (state) => state.product
+  );
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      dispatch(getProducts());
+    }
+  }, [isLoggedIn, dispatch]);
+
+  console.log(products, 'all products');
+
     return (
         <Layout>
             <h2>All Products</h2>
@@ -89,7 +111,8 @@ export default function Products() {
                 columns={columns} 
                 dataSource={data}
                 footer={() => ''} 
-                bordered 
+                bordered
+                isLoading 
             />
         </Layout>
     );
