@@ -101,4 +101,5 @@ export const {CALC_STORE_VALUES} = productSlice.actions
 export const selectIsLoading = (state) => state.product.isLoading;
 
 
+
 export default productSlice.reducer

@@ -14,9 +14,10 @@ import './products.css';
 
 const columns = [
     {
-    title: 'SL',
-    dataIndex: 'key',
-    width: 80
+    title: 'Product Image',
+    dataIndex: 'image',
+    width: 140,
+    render: (img) => <img width={80} src={img.filePath} alt='' />
     },
   {
     title: 'Product Name',
@@ -26,18 +27,23 @@ const columns = [
   },
   {
     title: 'Quantity',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'quantity',
+    key: 'quantity',
+  },
+  {
+    title: 'SKU',
+    dataIndex: 'sku',
+    key: 'sku',
   },
   {
     title: 'Category',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'category',
+    key: 'category',
   },
   {
     title: 'Price',
-    key: 'tags',
-    dataIndex: 'tags',
+    key: 'price',
+    dataIndex: 'price',
   },
   {
     title: 'Action',
@@ -60,29 +66,6 @@ const columns = [
       </Space>
     ),
     width: 160
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: 300,
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: 200,
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: 400,
   },
 ];
 
@@ -109,10 +92,10 @@ export default function Products() {
             <h2>All Products</h2>
             <Table 
                 columns={columns} 
-                dataSource={data}
+                dataSource={products}
                 footer={() => ''} 
                 bordered
-                isLoading 
+                loading={isLoading}
             />
         </Layout>
     );
