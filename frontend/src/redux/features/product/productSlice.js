@@ -15,7 +15,6 @@ const initialState = {
 export const createProduct = createAsyncThunk(
   "products/create",
   async (formData, thunkAPI) => {
-    console.log(formData, 'frm data');
     try {
       return await productService.createProduct(formData);
     } catch (error) {
@@ -25,7 +24,6 @@ export const createProduct = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log(message, 'error slice');
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -47,19 +45,24 @@ const productSlice = createSlice({
         .addCase(createProduct.fulfilled, (state, action)=>{
           state.isLoading = false
           state.isSuccess = true
-          console.log(action.payload)
           state.products.push(action.payload)
-          notification.success('Product added successfully');
+          notification.success({
+            message: 'Product created Successfully'
+          });
         })
         .addCase(createProduct.rejected, (state, action)=>{
           state.isLoading = false
           state.isError = true
           state.message = action.payload
-          notification.error(action.payload);
+          notification.error({
+            message: action.payload
+          });
         })
   }
 });
 
 export const {CALC_STORE_VALUES} = productSlice.actions
+export const selectIsLoading = (state) => state.product.isLoading;
+
 
 export default productSlice.reducer
