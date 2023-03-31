@@ -170,6 +170,14 @@ const getUser = asyncHandler(async(req, res)=>{
 
 });
 
+// @get All Users
+const getUsers = asyncHandler(async(req, res)=>{
+    //if(req.user.role === 'admin'){
+        const users = await User.find().sort("-createdAt");
+        res.status(200).json(users);
+    //}
+});
+
 // Get Login Status
 const loginStatus = asyncHandler(async(req, res)=>{
     const token = req.cookies.token;
@@ -188,5 +196,6 @@ module.exports = {
     loginUser,
     getUser,
     logoutUser,
-    loginStatus
+    loginStatus,
+    getUsers
 }

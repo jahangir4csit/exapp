@@ -10,6 +10,7 @@ import { loggedinStatusApiRequest } from './services/authServices';
 import { SET_LOGIN } from './redux/features/auth/authSlice';
 
 import Dashboard from "./pages/dashboard/Dashboard";
+import Users from "./pages/users/Users";
 
 import Products from "./pages/products/Products";
 import AddProduct from "./pages/products/AddProduct";
@@ -39,6 +40,7 @@ function App() {
         <Route path='/login' element={<Login/>} />
         <Route path='/registration' element={<Register/>} />
         <Route path='/forgot' element={<Forgot/>} />
+        <Route path='/users' element={<Users/>} />
         <Route path='/resetpassword/:resetToken' element={<Reset/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/products' element={<Products/>} />
