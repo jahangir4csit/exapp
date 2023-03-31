@@ -50,8 +50,13 @@ const createProduct = asyncHandler(async(req, res)=>{
 
 // get all products
 const getProducts = asyncHandler(async(req, res)=>{
-    const products = await Product.find({ user: req.user.id }).sort("-createdAt");
-    res.status(200).json(products);
+    if(req.user.role === 'admin'){
+        const allProducts = await Product.find().sort("-createdAt");
+        res.status(200).json(allProducts);
+    }else{
+        const products = await Product.find({ user: req.user.id }).sort("-createdAt");
+        res.status(200).json(products);
+    }
 });
 
 // Delete Product

@@ -149,6 +149,27 @@ const logoutUser = asyncHandler(async(req, res)=>{
     return res.status(200).json({ message: 'Successfully Logged Out'})
 });
 
+// @get User Data
+const getUser = asyncHandler(async(req, res)=>{
+
+    const user = await User.findById(req.user._id)
+    if (user) {
+        const { _id, name, email, photo, phone, bio } = user;
+        res.status(200).json({
+            _id,
+            name,
+            email,
+            photo,
+            phone,
+            bio
+        });
+    } else {
+        res.status(400);
+        throw new Error("User not found");
+    }
+
+});
+
 // Get Login Status
 const loginStatus = asyncHandler(async(req, res)=>{
     const token = req.cookies.token;
@@ -165,6 +186,7 @@ const loginStatus = asyncHandler(async(req, res)=>{
 module.exports = {
     registerUser,
     loginUser,
+    getUser,
     logoutUser,
     loginStatus
 }
