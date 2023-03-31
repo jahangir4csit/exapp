@@ -5,7 +5,7 @@ import Layout from '../../components/layout/Layout';
 import { Divider, Button, Popconfirm  } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Space, Table, Tag } from 'antd';
-import { getProducts, selectIsLoading } from '../../redux/features/product/productSlice';
+import { getUsers, selectIsLoading } from '../../redux/features/users/userSlice';
 import useRedirectLoggedOutUser from "../../components/utils/useRedirectUser";
 import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 
@@ -13,37 +13,25 @@ import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 
 
 const columns = [
-    {
-    title: 'Product Image',
-    dataIndex: 'image',
-    width: 140,
-    render: (img) => <img width={80} src={img.filePath} alt='' />
-    },
   {
-    title: 'Product Name',
+    title: 'Name',
     dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
+    key: 'name'
   },
   {
-    title: 'Quantity',
-    dataIndex: 'quantity',
-    key: 'quantity',
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email'
   },
   {
-    title: 'SKU',
-    dataIndex: 'sku',
-    key: 'sku',
+    title: 'Bio',
+    dataIndex: 'bio',
+    key: 'bio',
   },
   {
-    title: 'Category',
-    dataIndex: 'category',
-    key: 'category',
-  },
-  {
-    title: 'Price',
-    key: 'price',
-    dataIndex: 'price',
+    title: 'Role',
+    key: 'role',
+    dataIndex: 'role',
   },
   {
     title: 'Action',
@@ -76,23 +64,23 @@ export default function Users() {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const { products, isLoading } = useSelector(
-    (state) => state.product
+  const { users, isLoading } = useSelector(
+    (state) => state.users
   );
   useEffect(() => {
     if (isLoggedIn === true) {
-      dispatch(getProducts());
+      dispatch(getUsers());
     }
   }, [isLoggedIn, dispatch]);
 
-  console.log(products, 'all Users');
+  console.log(users, 'all Users');
 
     return (
         <Layout>
             <h2>All Users</h2>
             <Table 
                 columns={columns} 
-                dataSource={products}
+                dataSource={users}
                 footer={() => ''} 
                 bordered
                 loading={isLoading}

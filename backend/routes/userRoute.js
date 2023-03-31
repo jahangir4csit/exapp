@@ -9,7 +9,7 @@ router.post('/login', loginUser);
 router.get("/getuser", protected, getUser);
 router.get("/logout", logoutUser);
 router.get("/loggedin", loginStatus);
-router.get("/all", protected, getUsers);
+router.get("/all", protected, authorizePermissions('admin'), getUsers);
 router.post("/add-role", protected, authorizePermissions('admin'), addRole);
 
 module.exports = router;
