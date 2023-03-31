@@ -26,4 +26,17 @@ const protected = asyncHandler(async(req, res, next)=>{
         throw new Error("Not Authorized, Please login")
     }
 });
-module.exports = protected
+
+const authorizePermissions = (...roles)=>{
+    return(req, res, next)=>{
+        if(!roles.includes(req.user.role)){
+            throw new Error("Unauthorized to access");
+        }
+        next();
+    }
+} 
+
+module.exports = {
+    protected,
+    authorizePermissions
+}

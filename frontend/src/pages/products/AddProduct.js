@@ -120,29 +120,21 @@ export default function AddProduct() {
                                 }
                                 options={[
                                 {
-                                    value: '1',
-                                    label: 'Not Identified',
+                                    value: 'Beauty & Personal',
+                                    label: 'Beauty & Personal',
                                 },
                                 {
-                                    value: '2',
-                                    label: 'Closed',
+                                    value: 'Toys & games',
+                                    label: 'Toys & games',
                                 },
                                 {
-                                    value: '3',
-                                    label: 'Communicated',
+                                    value: 'Sports & outdoors',
+                                    label: 'Sports & outdoors',
                                 },
                                 {
-                                    value: '4',
-                                    label: 'Identified',
-                                },
-                                {
-                                    value: '5',
-                                    label: 'Resolved',
-                                },
-                                {
-                                    value: '6',
-                                    label: 'Cancelled',
-                                },
+                                    value: 'Electronics ',
+                                    label: 'Electronics',
+                                }
                                 ]}
                             />
                         </Form.Item>
