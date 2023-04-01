@@ -30,6 +30,7 @@ const protected = asyncHandler(async(req, res, next)=>{
 const authorizePermissions = (...roles)=>{
     return(req, res, next)=>{
         if(!roles.includes(req.user.role)){
+            res.status(401);
             throw new Error("Unauthorized to access");
         }
         next();

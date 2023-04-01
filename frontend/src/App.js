@@ -11,6 +11,8 @@ import { SET_LOGIN } from './redux/features/auth/authSlice';
 
 import Dashboard from "./pages/dashboard/Dashboard";
 import Users from "./pages/users/Users";
+import AddRole from './pages/users/AddRole';
+import Unauthorized from './pages/unauthorized/Unauthorized';
 
 import Products from "./pages/products/Products";
 import AddProduct from "./pages/products/AddProduct";
@@ -18,6 +20,7 @@ import EditProduct from "./pages/products/EditProduct";
 
 import Categories from "./pages/categories/Categories";
 import AddCategory from "./pages/categories/AddCategory";
+import EditRole from './pages/users/EditRole';
 
 
 
@@ -37,15 +40,18 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>} />
+        <Route path='/unauthorized' element={<Unauthorized/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/registration' element={<Register/>} />
         <Route path='/forgot' element={<Forgot/>} />
         <Route path='/users' element={<Users/>} />
+        <Route path='/users/add-role' element={<AddRole/>} />
+        <Route path='/users/edit-role/:id' element={<EditRole/>} />
         <Route path='/resetpassword/:resetToken' element={<Reset/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/products' element={<Products/>} />
         <Route path='/add-product' element={<AddProduct/>} />
-        <Route path='/edit-product' element={<EditProduct/>} />
+        <Route path='/edit-product/:id' element={<EditProduct/>} />
         <Route path='/categories' element={<Categories/>} />
         <Route path='/add-category' element={<AddCategory/>} />
       </Routes>

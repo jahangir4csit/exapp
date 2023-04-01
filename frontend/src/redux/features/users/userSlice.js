@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { notification } from 'antd';
 import userService from '../../../services/userServices';
+import { HttpStatusCode } from "axios";
 
 const initialState = {
     users: [],

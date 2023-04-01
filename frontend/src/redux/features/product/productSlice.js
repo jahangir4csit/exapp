@@ -47,13 +47,68 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+// Delete a Product
+export const deleteProduct = createAsyncThunk(
+  "products/delete",
+  async (id, thunkAPI) => {
+    try {
+      return await productService.deleteProduct(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get a product
+export const getProduct = createAsyncThunk(
+  "products/getProduct",
+  async (id, thunkAPI) => {
+    try {
+      return await productService.getProduct(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Update product
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({ id, formData }, thunkAPI) => {
+    try {
+      return await productService.updateProduct(id, formData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    CALC_STORE_VALUES(state, action){
-        console.log('store values');
-    }
+
   },
   extraReducers: (builder)=>{
       builder
@@ -94,11 +149,67 @@ const productSlice = createSlice({
             message: action.payload
           });
         })
+        .addCase(deleteProduct.pending, (state) => {
+          state.isLoading = true;
+        })
+        .addCase(deleteProduct.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          notification.success({
+            message: "Product deleted successfully"
+          });
+        })
+        .addCase(deleteProduct.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          notification.error({
+            message: action.payload
+          });
+        })
+        .addCase(getProduct.pending, (state) => {
+          state.isLoading = true;
+        })
+        .addCase(getProduct.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          state.product = action.payload;
+        })
+        .addCase(getProduct.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          notification.error({
+            message: action.payload
+          });
+        })
+        .addCase(updateProduct.pending, (state) => {
+          state.isLoading = true;
+        })
+        .addCase(updateProduct.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          notification.success({
+            message: "Product updated successfully"
+          });
+        })
+        .addCase(updateProduct.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+          notification.error({
+            message: action.payload
+          });
+        });
   }
 });
 
-export const {CALC_STORE_VALUES} = productSlice.actions
 export const selectIsLoading = (state) => state.product.isLoading;
+export const selectProduct = (state) => state.product.product;
+
 
 
 

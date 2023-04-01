@@ -17,7 +17,7 @@ export default function Sidebar() {
     getItem(<NavLink to='/dashboard'>Overview</NavLink>, '1', <PieChartOutlined />),
     getItem('User', 'sub1', <TeamOutlined />, [
         getItem(<NavLink to='/users'>All Users</NavLink>, '3'),
-        getItem(<NavLink to='/add-role'>Add Role</NavLink>, '4'),
+        getItem(<NavLink to='/users/add-role'>Add Role</NavLink>, '4'),
     ]),
     getItem('Products', 'sub2', <ShopOutlined />, [
       getItem(<NavLink to='/products'>All Products</NavLink>, '6'), 

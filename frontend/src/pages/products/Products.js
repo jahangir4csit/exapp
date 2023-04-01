@@ -5,14 +5,36 @@ import Layout from '../../components/layout/Layout';
 import { Divider, Button, Popconfirm  } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Space, Table, Tag } from 'antd';
-import { getProducts, selectIsLoading } from '../../redux/features/product/productSlice';
+import { getProducts, deleteProduct, selectIsLoading } from '../../redux/features/product/productSlice';
 import useRedirectLoggedOutUser from "../../components/utils/useRedirectUser";
 import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 
+
 import './products.css';
 
+export default function Products() {
 
-const columns = [
+  useRedirectLoggedOutUser("/login");
+  const dispatch = useDispatch();
+
+  const delProduct = async (id) => {
+    await dispatch(deleteProduct(id));
+    await dispatch(getProducts());
+  };
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const { products, isLoading } = useSelector(
+    (state) => state.product
+  );
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      dispatch(getProducts());
+    }
+  }, [isLoggedIn, dispatch]);
+
+
+  const columns = [
     {
     title: 'Product Image',
     dataIndex: 'image',
@@ -48,16 +70,18 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: (_, record) => (
+    dataIndex: '_id',
+    render: (record) => (
       <Space size="middle" className='action'>
-        <Link to={'/edit-product'} className='flex items-center'><EditOutlined style={{ marginRight: '5px', color: '#389e0d'}} /> Edit</Link>
+        <Link to={`/edit-product/${record}`} className='flex items-center'><EditOutlined style={{ marginRight: '5px', color: '#389e0d'}} /> Edit</Link>
         <Divider type="vertical" />
         <Popconfirm
             placement="topRight"
-            title="Delete the task"
-            description="Are you sure to delete this task?"
+            title="Delete Product"
+            description="Are you sure to delete this Product?"
             okText="Yes"
             cancelText="No"
+            onConfirm={(e)=>delProduct(record, e)}
         >
             <Button type="link" danger style={{ paddingLeft: 0, paddingRight: 0}} icon={<DeleteOutlined />}>
                 <span style={{ marginInlineStart: 5 }}>Delete</span>
@@ -68,24 +92,6 @@ const columns = [
     width: 160
   },
 ];
-
-export default function Products() {
-
-  useRedirectLoggedOutUser("/login");
-  const dispatch = useDispatch();
-
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-
-  const { products, isLoading } = useSelector(
-    (state) => state.product
-  );
-  useEffect(() => {
-    if (isLoggedIn === true) {
-      dispatch(getProducts());
-    }
-  }, [isLoggedIn, dispatch]);
-
-  console.log(products, 'all products');
 
     return (
         <Layout>
@@ -100,3 +106,4 @@ export default function Products() {
         </Layout>
     );
 };
+
