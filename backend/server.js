@@ -3,6 +3,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+const passportStrategy = require("./passport");
+
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -18,6 +22,15 @@ app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(
+    cookieSession({
+        name: "session",
+        keys: ['exapp'],
+        maxAge: 24*60*60*100
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 const corsOptions = {
     origin: 'http://localhost:3000',
