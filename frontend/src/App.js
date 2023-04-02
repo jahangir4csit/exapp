@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register.js'
 import Forgot from './pages/auth/Forgot'
@@ -28,6 +28,30 @@ axios.defaults.withCredentials = true
 
 function App() {
   const dispatch = useDispatch();
+  //const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+		try {
+			const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/login/success`;
+			const { data } = await axios.get(url, { withCredentials: true });
+      setUser(data.user._json);
+      await dispatch(SET_LOGIN(true));
+      <Navigate to={'/dashboard'} />
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+  useEffect(() => {
+		getUser();
+	}, []);
+
+
+  console.log(user, '... google auth user');
+
+
   useEffect(()=>{
     async function loginStatus(){
       const status = await loggedinStatusApiRequest();

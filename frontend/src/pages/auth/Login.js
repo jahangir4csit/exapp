@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, NavLink} from 'react-router-dom';
 import {Col, Row, Input, Form, Checkbox, Button, Typography, Divider, notification} from 'antd';
 import {UserOutlined, EyeTwoTone, EyeInvisibleOutlined, LockOutlined, GoogleOutlined  } from '@ant-design/icons'
 import AuthLayout from '../../components/layout/AuthLayout';
@@ -97,9 +97,9 @@ export default function Login() {
                     <Button type="primary" size="large" htmlType="submit" className='mr-4' loading={isLoading}>
                         Login
                     </Button>
-                    <Button size="large" htmlType="button" href='/registration' >
-                        Register
-                    </Button>
+                    <NavLink className={'ant-btn css-dev-only-do-not-override-1km3mtt ant-btn-default ant-btn-lg'} size="large" htmlType="button" to='/registration' >
+                        <span>Register</span>
+                    </NavLink>
                 </Form.Item>
             </Form>
             <Paragraph>

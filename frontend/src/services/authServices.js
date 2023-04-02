@@ -13,7 +13,7 @@ export const registerUserApiRequest = async(userData)=>{
         const response = await axios.post(`${BACKEND_URL}/api/users/register`, userData, { withCredentials: true });
         if(response.statusText === "Created"){
             notification.success({
-                message: 'User Registrated Successfully',
+                message: 'User Registrated Successfully. Please check your email',
             });
         }
         return response.data;
