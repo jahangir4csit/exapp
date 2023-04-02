@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../../components/layout/Layout';
-import { useDispatch } from 'react-redux'
-import { Input, Form, Button, Typography, notification, InputNumber, Select, Upload, Spin  } from 'antd';
-import {FontSizeOutlined, ScanOutlined, PoundCircleOutlined, PlusOutlined  } from '@ant-design/icons'
+import { Input, Form, Button, Typography, notification, Upload  } from 'antd';
+import {FontSizeOutlined, PlusOutlined  } from '@ant-design/icons'
 const { Title  } = Typography;
 // import './dashboard.css';
 

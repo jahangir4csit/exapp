@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import Layout from '../../components/layout/Layout';
+import React from 'react'
 import {Typography} from 'antd';
 const { Title  } = Typography;
 

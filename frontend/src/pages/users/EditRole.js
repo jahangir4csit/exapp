@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams  } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
-import { Input, Form, Button, Typography, notification, Select, Spin  } from 'antd';
+import { Form, Button, Typography, notification, Select, Spin  } from 'antd';
 import { updateRole } from '../../services/userServices';
 const { Title  } = Typography;
 

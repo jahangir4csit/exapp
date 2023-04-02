@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import { Divider, Button, Popconfirm  } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Space, Table, Tag } from 'antd';
-import { getProducts, deleteProduct, selectIsLoading } from '../../redux/features/product/productSlice';
+import { Space, Table } from 'antd';
+import { getProducts, deleteProduct } from '../../redux/features/product/productSlice';
 import useRedirectLoggedOutUser from "../../components/utils/useRedirectUser";
 import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 
