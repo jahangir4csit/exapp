@@ -33,15 +33,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://nodexapp.netlify.app/'],
-    credentials: true
+    //origin: ['http://localhost:3000', 'https://nodexapp.netlify.app/'],
+    origin: "*",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   };
 
 app.use(cors(corsOptions));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // Routes Middleware
-app.use('/api/users', userRoute);
+app.use('/api/users',  userRoute);
 app.use('/api/products', productRoute);
 
 
