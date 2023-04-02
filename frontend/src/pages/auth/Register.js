@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { Input, Form, Button, Typography, notification, Spin  } from 'antd';
-import {UserOutlined, EyeTwoTone, EyeInvisibleOutlined, LockOutlined, MailOutlined  } from '@ant-design/icons'
+import { Input, Form, Button, Typography, Divider, notification, Spin  } from 'antd';
+import {UserOutlined, EyeTwoTone, EyeInvisibleOutlined, LockOutlined, MailOutlined, GoogleOutlined  } from '@ant-design/icons'
 import AuthLayout from '../../components/layout/AuthLayout';
 import { registerUserApiRequest, validateEmail } from '../../services/authServices';
 import { useDispatch } from 'react-redux'
@@ -63,6 +63,13 @@ export default function Register() {
       }
 
   };
+
+  const googleAuth = () => {
+		window.open(
+			`${process.env.REACT_APP_BACKEND_URL}/api/users/google/callback`,
+			"_self"
+		);
+	};
 
   return (
     <AuthLayout>
@@ -126,6 +133,15 @@ export default function Register() {
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
           </Form.Item>
+          <Divider>OR</Divider>
+
+          <Button type="primary" block className='flex items-center justify-center mb-4'
+          style={{ backgroundColor: '#DB4437', color: 'white', height: 40, fontWeight: '500', fontSize: 13 }}
+          onClick={googleAuth}
+          >
+              <GoogleOutlined style={{ fontSize: '20px'}} /> SIGNUP WITH GOOGLE
+          </Button>
+
           <Form.Item {...tailLayout} className='mt-6'>
               <Button type="primary" size="large" htmlType="submit" className='mr-4' loading={isLoading}>
                 Register

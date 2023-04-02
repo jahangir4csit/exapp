@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
-import {Col, Row, Input, Form, Checkbox, Button, Typography, notification} from 'antd';
-import {UserOutlined, EyeTwoTone, EyeInvisibleOutlined, LockOutlined  } from '@ant-design/icons'
+import {Col, Row, Input, Form, Checkbox, Button, Typography, Divider, notification} from 'antd';
+import {UserOutlined, EyeTwoTone, EyeInvisibleOutlined, LockOutlined, GoogleOutlined  } from '@ant-design/icons'
 import AuthLayout from '../../components/layout/AuthLayout';
 import {loginUserApiRequest, validateEmail} from "../../services/authServices";
 import {SET_LOGIN, SET_NAME} from "../../redux/features/auth/authSlice";
@@ -48,6 +48,13 @@ export default function Login() {
         }
     }
 
+    const googleAuth = () => {
+		window.open(
+			`${process.env.REACT_APP_BACKEND_URL}/api/users/google/callback`,
+			"_self"
+		);
+	};
+
   return (
     <AuthLayout>
         <div className="space-align-block">
@@ -70,6 +77,16 @@ export default function Login() {
                     iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                 />
                 </Form.Item>
+
+                <Divider>OR</Divider>
+
+                <Button type="primary" block className='flex items-center justify-center mb-4'
+                style={{ backgroundColor: '#DB4437', color: 'white', height: 40, fontWeight: '500', fontSize: 13 }}
+                onClick={googleAuth}
+                >
+                    <GoogleOutlined style={{ fontSize: '20px'}} /> LOG IN WITH GOOGLE
+                </Button>
+
                 <Form.Item className='mb-6'>
                     <Row justify="space-between" align="middle">
                         <Col><Checkbox>Remember me</Checkbox></Col>
