@@ -33,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://nodexapp.netlify.app/'],
     credentials: true
   };
 
