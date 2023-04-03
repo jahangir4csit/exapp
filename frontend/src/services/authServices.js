@@ -3,12 +3,6 @@ import { notification  } from 'antd';
 
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers':
-      'Origin, X-Requested-With, Content-Type, Accept',
-};
-
 export const validateEmail = (email)=>{
     return email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 }
@@ -36,7 +30,7 @@ export const registerUserApiRequest = async(userData)=>{
 // User Login
 export const loginUserApiRequest = async(userData)=>{
     try {
-        const response = await axios.post(`${BACKEND_URL}/api/users/login`, userData, {headers});
+        const response = await axios.post(`${BACKEND_URL}/api/users/login`, userData);
         if(response.statusText === "OK"){
             notification.success({
                 message: 'Logged in Successfully',
