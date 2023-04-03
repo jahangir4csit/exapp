@@ -32,13 +32,19 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const corsOptions = {
-    origin: ['http://localhost:3000', 'https://nexapp.vercel.app/'],
-    credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  };
+// const corsOptions = {
+//     origin: ['http://localhost:3000', 'https://nexapp.vercel.app'],
+//     credentials: true,
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(
+    cors({
+      origin: ["http://localhost:3000", "https://nexapp.vercel.app"],
+      credentials: true,
+    })
+  );
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // Routes Middleware
