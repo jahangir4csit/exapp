@@ -32,16 +32,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// const corsOptions = {
-//     origin: ['http://localhost:3000', 'https://nexapp.vercel.app'],
-//     credentials: true,
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   };
-
-// app.use(cors(corsOptions));
 app.use(
     cors({
-      origin: ["http://localhost:3000", "https://nexapp.vercel.app"],
+      origin: ["http://localhost:3000", "https://ndexapp.netlify.app/"],
       credentials: true,
     })
   );
