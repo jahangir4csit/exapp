@@ -34,7 +34,7 @@ app.use(passport.session());
 
 app.use(
     cors({
-      origin: ["http://localhost:3000", "https://ndexapp.netlify.app"],
+      origin: ["http://localhost:3000", "https://nexapp.vercel.app"],
       credentials: true,
     })
   );
